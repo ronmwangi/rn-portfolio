@@ -30,11 +30,14 @@ const PAYHERO_BASE_URL = 'https://backend.payhero.co.ke/api/v2';
 // Nodemailer transporter: authenticates as the SENDER gmail account
 // (your second gmail, set via SENDER_EMAIL / SENDER_APP_PASSWORD in .env)
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.gmail.com',
+  port: 465,
+  secure: true,
   auth: {
     user: process.env.SENDER_EMAIL,
     pass: process.env.SENDER_APP_PASSWORD,
   },
+  family: 4, // forces IPv4, fixes ENETUNREACH on Render
 });
 
 // Google Sheets logging: authenticates as the service account (google-credentials.json)
