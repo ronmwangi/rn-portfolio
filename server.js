@@ -3,10 +3,12 @@ const express = require('express');
 const axios = require('axios');
 const path = require('path');
 const crypto = require('crypto');
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 const { JWT } = require('google-auth-library');
 const fs = require('fs');
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const secretPath = '/etc/secrets/google-credentials.json';
 const localPath = path.join(__dirname, 'google-credentials.json');
@@ -29,17 +31,6 @@ const PAYHERO_BASE_URL = 'https://backend.payhero.co.ke/api/v2';
 
 // Nodemailer transporter: authenticates as the SENDER gmail account
 // (your second gmail, set via SENDER_EMAIL / SENDER_APP_PASSWORD in .env)
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false, // STARTTLS, not direct SSL
-  auth: {
-    user: process.env.SENDER_EMAIL,
-    pass: process.env.SENDER_APP_PASSWORD,
-  },
-  family: 4,
-  connectionTimeout: 10000, // fail fast (10s) instead of hanging
-});
 
 // Google Sheets logging: authenticates as the service account (google-credentials.json)
 // and appends a row to the donations sheet whenever a transaction resolves.
@@ -230,7 +221,7 @@ app.post('/contact', async (req, res) => {
   }
 
   const mailOptions = {
-    from: `"rn.dev contact form" <${process.env.SENDER_EMAIL}>`,
+    from: 'rn.dev contact form <onboarding@resend.dev>',
     to: process.env.RECEIVER_EMAIL,
     replyTo: email,
     subject: `New inquiry: ${project_type || 'General'} — from ${first_name} ${last_name || ''}`,
@@ -246,7 +237,7 @@ app.post('/contact', async (req, res) => {
   };
 
   try {
-    await transporter.sendMail(mailOptions);
+    await resend.emails.send(mailOptions);
     res.json({ success: true });
   } catch (err) {
     console.error('Email send error:', err.message);
