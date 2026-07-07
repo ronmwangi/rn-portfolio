@@ -1072,7 +1072,7 @@ async function handleSubmit(btn) {
   document.getElementById('formStatus').classList.remove('show');
 
   try {
-    const res = await fetch('https://c5cd-102-209-58-3.ngrok-free.app/contact', {
+    const res = await fetch('/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ first_name, last_name, email, project_type, message })
