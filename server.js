@@ -6,7 +6,12 @@ const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const { GoogleSpreadsheet } = require('google-spreadsheet');
 const { JWT } = require('google-auth-library');
-const googleCreds = require('./google-credentials.json');
+const fs = require('fs');
+
+const secretPath = '/etc/secrets/google-credentials.json';
+const localPath = path.join(__dirname, 'google-credentials.json');
+const credsPath = fs.existsSync(secretPath) ? secretPath : localPath;
+const googleCreds = JSON.parse(fs.readFileSync(credsPath, 'utf8'));
 
 const app = express();
 app.use(express.json());
