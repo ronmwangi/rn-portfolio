@@ -1,0 +1,1111 @@
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ron Ngugi - Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080C10;
+  --bg2:#0D1117;
+  --bg3:#131920;
+  --border:#1E2832;
+  --border2:#263040;
+  --accent:#00E5A0;
+  --accent2:#00B87A;
+  --accent-dim:rgba(0,229,160,0.08);
+  --accent-dim2:rgba(0,229,160,0.15);
+  --text:#F0F4F8;
+  --text2:#8B9BB0;
+  --text3:#4A5568;
+  --mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Space Grotesk',sans-serif;background:var(--bg);color:var(--text);font-size:16px;line-height:1.6;overflow-x:hidden}
+
+/* GRID OVERLAY */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
+  background-size:60px 60px;
+  opacity:0.3;pointer-events:none;z-index:0;
+}
+
+/* NAV */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  height:60px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 2.5rem;
+  background:rgba(8,12,16,0.9);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(12px);
+}
+.nav-logo{
+  font-family:var(--mono);font-size:0.9rem;font-weight:500;
+  color:var(--text);letter-spacing:0.05em;
+}
+.nav-logo span{color:var(--accent)}
+.nav-links{display:flex;gap:2rem;list-style:none;align-items:center}
+.nav-links a{
+  font-size:0.82rem;font-weight:400;color:var(--text2);
+  text-decoration:none;letter-spacing:0.04em;transition:color 0.2s;
+  font-family:var(--mono);
+}
+.nav-links a:hover{color:var(--accent)}
+.nav-cta{
+  border:1px solid var(--accent) !important;
+  color:var(--accent) !important;
+  padding:0.4rem 1.1rem;border-radius:4px;
+  font-size:0.8rem !important;
+  transition:background 0.2s !important;
+}
+.nav-cta:hover{background:var(--accent-dim) !important}
+
+/* HAMBURGER TOGGLE */
+.nav-toggle{
+  display:none;
+  background:none;border:none;cursor:pointer;
+  width:32px;height:32px;
+  align-items:center;justify-content:center;
+  position:relative;z-index:110;
+  padding:0;
+}
+.nav-toggle-bars{
+  position:relative;width:20px;height:14px;
+}
+.nav-toggle-bars span{
+  position:absolute;left:0;width:100%;height:2px;
+  background:var(--text);border-radius:2px;
+  transition:transform 0.25s ease,opacity 0.2s ease,background 0.2s ease;
+}
+.nav-toggle-bars span:nth-child(1){top:0}
+.nav-toggle-bars span:nth-child(2){top:6px}
+.nav-toggle-bars span:nth-child(3){top:12px}
+.nav-toggle.open .nav-toggle-bars span{background:var(--accent)}
+.nav-toggle.open .nav-toggle-bars span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.nav-toggle.open .nav-toggle-bars span:nth-child(2){opacity:0}
+.nav-toggle.open .nav-toggle-bars span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+/* MOBILE MENU PANEL */
+.nav-mobile-panel{
+  position:fixed;top:60px;left:0;right:0;
+  background:rgba(8,12,16,0.98);
+  backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  z-index:99;
+  display:flex;flex-direction:column;
+  padding:0.5rem 1.5rem 1.5rem;
+  transform:translateY(-8px);
+  opacity:0;visibility:hidden;
+  transition:opacity 0.22s ease,transform 0.22s ease,visibility 0.22s;
+}
+.nav-mobile-panel.open{
+  opacity:1;visibility:visible;transform:translateY(0);
+}
+.nav-mobile-panel a{
+  font-family:var(--mono);font-size:0.9rem;color:var(--text2);
+  text-decoration:none;letter-spacing:0.04em;
+  padding:0.9rem 0.25rem;
+  border-bottom:1px solid var(--border);
+}
+.nav-mobile-panel a:last-child{border-bottom:none}
+.nav-mobile-panel a:hover{color:var(--accent)}
+.nav-mobile-panel a.nav-cta{
+  color:var(--accent);
+  border:none !important;
+  border-bottom:1px solid var(--border) !important;
+  padding:0.9rem 0.25rem;
+  background:none !important;
+  border-radius:0 !important;
+  font-size:0.9rem !important;
+  font-weight:400 !important;
+}
+.nav-mobile-panel a.nav-cta:last-child{border-bottom:none !important}
+
+/* PAGES */
+.page{display:none;padding-top:60px;position:relative;z-index:1}
+.page.active{display:block}
+
+/* HERO */
+.hero{
+  min-height:calc(100vh - 60px);
+  display:flex;align-items:center;
+  padding:3rem 2.5rem;
+  max-width:1200px;margin:0 auto;
+}
+.hero-inner{
+  display:grid;grid-template-columns:1.1fr 0.9fr;
+  gap:4rem;align-items:center;width:100%;
+}
+.hero-tag{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  font-family:var(--mono);font-size:0.72rem;color:var(--accent);
+  letter-spacing:0.1em;margin-bottom:1.5rem;
+  border:1px solid rgba(0,229,160,0.3);
+  padding:0.35rem 0.85rem;border-radius:2px;
+}
+.hero-tag::before{content:'▶';font-size:0.55rem}
+.hero h1{
+  font-size:clamp(2.4rem,4.5vw,4rem);font-weight:700;
+  color:var(--text);line-height:1.1;letter-spacing:-0.03em;
+  margin-bottom:1.5rem;
+}
+.hero h1 .line2{color:var(--accent);display:block}
+.hero-sub{
+  font-size:1rem;color:var(--text2);line-height:1.8;
+  margin-bottom:2.5rem;max-width:480px;font-weight:300;
+}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:3rem}
+.btn-primary{
+  background:var(--accent);color:#000;
+  padding:0.75rem 1.75rem;border-radius:4px;
+  font-size:0.875rem;font-weight:600;
+  text-decoration:none;border:none;cursor:pointer;
+  transition:background 0.2s,transform 0.15s;
+  font-family:'Space Grotesk',sans-serif;
+  letter-spacing:0.02em;display:inline-block;
+}
+.btn-primary:hover{background:#00ffb0;transform:translateY(-1px)}
+.btn-ghost{
+  background:transparent;color:var(--text);
+  padding:0.75rem 1.75rem;border-radius:4px;
+  font-size:0.875rem;font-weight:500;
+  text-decoration:none;border:1px solid var(--border2);cursor:pointer;
+  transition:border-color 0.2s,color 0.2s;
+  font-family:'Space Grotesk',sans-serif;display:inline-block;
+}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+
+/* TERMINAL WIDGET */
+.terminal{
+  background:var(--bg2);
+  border:1px solid var(--border2);
+  border-radius:8px;overflow:hidden;
+}
+.terminal-bar{
+  background:var(--bg3);
+  padding:0.6rem 1rem;
+  display:flex;align-items:center;gap:0.5rem;
+  border-bottom:1px solid var(--border);
+}
+.t-dot{width:10px;height:10px;border-radius:50%}
+.t-dot.r{background:#FF5F57}
+.t-dot.y{background:#FEBC2E}
+.t-dot.g{background:#28C840}
+.terminal-title{
+  font-family:var(--mono);font-size:0.72rem;
+  color:var(--text3);margin-left:0.5rem;
+}
+.terminal-body{padding:1.5rem;font-family:var(--mono);font-size:0.8rem;line-height:1.9}
+.t-line{display:flex;gap:0.75rem;margin-bottom:0.2rem}
+.t-prompt{color:var(--accent);flex-shrink:0}
+.t-cmd{color:var(--text)}
+.t-out{color:var(--text2);padding-left:1.25rem}
+.t-green{color:#28C840}
+.t-blue{color:#5BA4F5}
+.t-dim{color:var(--text3)}
+.cursor{
+  display:inline-block;width:8px;height:14px;
+  background:var(--accent);margin-left:2px;vertical-align:-2px;
+  animation:blink 1.2s step-end infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* METRICS ROW */
+.metrics-row{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:0.75rem;
+  margin-top:1rem;
+}
+.metric{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:6px;padding:0.85rem 1rem;
+}
+.metric-num{font-size:1.3rem;font-weight:700;color:var(--accent);font-family:var(--mono)}
+.metric-label{font-size:0.72rem;color:var(--text3);margin-top:0.2rem;font-family:var(--mono)}
+
+/* SECTION */
+.section{max-width:1200px;margin:0 auto;padding:5rem 2.5rem}
+.section-tag{
+  font-family:var(--mono);font-size:0.72rem;
+  color:var(--accent);letter-spacing:0.1em;
+  margin-bottom:0.75rem;
+}
+.section-title{
+  font-size:clamp(1.9rem,3vw,2.8rem);font-weight:700;
+  color:var(--text);letter-spacing:-0.03em;line-height:1.15;
+  margin-bottom:1rem;
+}
+.section-sub{font-size:0.975rem;color:var(--text2);max-width:500px;line-height:1.8}
+.section-header{margin-bottom:3.5rem}
+
+hr.divider{border:none;border-top:1px solid var(--border);max-width:1200px;margin:0 auto}
+
+/* WHY CARDS */
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1px;background:var(--border)}
+.why-card{
+  background:var(--bg);padding:2rem;
+  transition:background 0.2s;
+  position:relative;
+}
+.why-card:hover{background:var(--bg2)}
+.why-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:var(--accent);transform:scaleX(0);transform-origin:left;
+  transition:transform 0.3s;
+}
+.why-card:hover::after{transform:scaleX(1)}
+.wc-num{
+  font-family:var(--mono);font-size:0.7rem;color:var(--text3);
+  margin-bottom:1rem;letter-spacing:0.1em;
+}
+.wc-title{font-size:0.95rem;font-weight:600;color:var(--text);margin-bottom:1rem}
+.wc-list{list-style:none;display:flex;flex-direction:column;gap:0.5rem}
+.wc-list li{
+  font-size:0.82rem;color:var(--text2);
+  padding-left:1rem;position:relative;line-height:1.5;
+}
+.wc-list li::before{content:'—';position:absolute;left:0;color:var(--accent)}
+
+/* CTA STRIP */
+.cta-strip{
+  border:1px solid var(--border2);border-radius:8px;
+  padding:3.5rem;margin:0 2.5rem 5rem;
+  text-align:center;background:var(--bg2);
+  position:relative;overflow:hidden;
+}
+.cta-strip::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at center,rgba(0,229,160,0.04) 0%,transparent 70%);
+  pointer-events:none;
+}
+.cta-strip h2{font-size:2rem;font-weight:700;color:var(--text);margin-bottom:0.75rem;letter-spacing:-0.02em}
+.cta-strip p{color:var(--text2);margin-bottom:2rem;font-size:0.95rem}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:340px 1fr;gap:4rem;align-items:start}
+.about-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:8px;overflow:hidden;
+}
+.about-card-top{
+  background:var(--bg3);padding:2rem;
+  border-bottom:1px solid var(--border);
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+}
+.avatar{
+  width:80px;height:80px;border-radius:50%;
+  background:var(--accent-dim2);border:2px solid var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.5rem;font-weight:700;color:var(--accent);
+  margin-bottom:1rem;font-family:var(--mono);
+}
+.about-name{font-size:1.1rem;font-weight:600;color:var(--text);margin-bottom:0.25rem}
+.about-role{font-size:0.8rem;color:var(--text2);font-family:var(--mono)}
+.about-card-body{padding:1.5rem}
+.about-stat{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:0.6rem 0;border-bottom:1px solid var(--border);
+}
+.about-stat:last-child{border-bottom:none}
+.about-stat-label{font-size:0.78rem;color:var(--text3);font-family:var(--mono)}
+.about-stat-val{font-size:0.82rem;color:var(--text);font-weight:500}
+
+.skill-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;
+  margin-top:1rem;
+}
+.skill-item{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:4px;padding:0.5rem 0.75rem;
+  font-size:0.75rem;color:var(--text2);font-family:var(--mono);
+  display:flex;align-items:center;gap:0.4rem;
+}
+.skill-item::before{content:'◆';color:var(--accent);font-size:0.5rem}
+
+.about-text h2{font-size:2rem;font-weight:700;color:var(--text);margin-bottom:0.5rem;letter-spacing:-0.02em}
+.about-text .tagline{font-family:var(--mono);font-size:0.82rem;color:var(--accent);margin-bottom:2rem}
+.about-text p{font-size:0.95rem;color:var(--text2);line-height:1.85;margin-bottom:1.25rem}
+.value-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:2rem}
+.value-box{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:6px;padding:1.25rem;
+}
+.vb-title{font-size:0.85rem;font-weight:600;color:var(--text);margin-bottom:0.35rem}
+.vb-desc{font-size:0.8rem;color:var(--text3);line-height:1.6}
+
+/* PROJECTS */
+.projects-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:1.5rem}
+.proj-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:8px;overflow:hidden;
+  transition:border-color 0.2s,transform 0.2s;
+}
+.proj-card:hover{border-color:rgba(0,229,160,0.4);transform:translateY(-2px)}
+.proj-header{
+  padding:1.5rem 1.5rem 0;
+  display:flex;align-items:flex-start;justify-content:space-between;
+  margin-bottom:1rem;
+}
+.proj-icon{
+  width:42px;height:42px;background:var(--accent-dim);
+  border:1px solid rgba(0,229,160,0.2);border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+}
+.proj-icon svg{width:20px;height:20px;stroke:var(--accent);fill:none;stroke-width:1.6}
+.proj-status{
+  font-family:var(--mono);font-size:0.68rem;
+  color:var(--accent);background:var(--accent-dim);
+  padding:0.25rem 0.6rem;border-radius:2px;letter-spacing:0.06em;
+}
+.proj-body{padding:0 1.5rem 1.5rem}
+.proj-tags{display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.85rem}
+.proj-tag{
+  font-family:var(--mono);font-size:0.68rem;
+  color:var(--text3);background:var(--bg3);
+  padding:0.2rem 0.55rem;border-radius:2px;
+  border:1px solid var(--border);letter-spacing:0.05em;
+}
+.proj-card h3{font-size:0.975rem;font-weight:600;color:var(--text);margin-bottom:0.6rem;line-height:1.3}
+.proj-card p{font-size:0.84rem;color:var(--text2);line-height:1.75;margin-bottom:1.25rem}
+.proj-outcomes{border-top:1px solid var(--border);padding-top:1rem;display:flex;flex-direction:column;gap:0.4rem}
+.outcome{display:flex;align-items:flex-start;gap:0.5rem;font-size:0.8rem;color:var(--text2)}
+.outcome-check{color:var(--accent);flex-shrink:0;font-family:var(--mono);font-size:0.72rem;margin-top:0.15rem}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:5rem;align-items:start}
+.contact-left h2{font-size:1.9rem;font-weight:700;color:var(--text);margin-bottom:0.75rem;letter-spacing:-0.02em}
+.contact-left p{font-size:0.9rem;color:var(--text2);line-height:1.8;margin-bottom:2.5rem}
+.contact-item{display:flex;align-items:center;gap:0.875rem;margin-bottom:1.25rem}
+.c-icon{
+  width:36px;height:36px;background:var(--accent-dim);
+  border:1px solid rgba(0,229,160,0.2);border-radius:6px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.c-icon svg{width:15px;height:15px;stroke:var(--accent);fill:none;stroke-width:1.8}
+.c-label{font-size:0.72rem;color:var(--text3);font-family:var(--mono);margin-bottom:0.1rem}
+.c-val{font-size:0.875rem;color:var(--text);font-weight:500}
+.avail-badge{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  border:1px solid rgba(0,229,160,0.3);color:var(--accent);
+  padding:0.45rem 1rem;border-radius:4px;
+  font-family:var(--mono);font-size:0.75rem;margin-top:2rem;
+}
+.avail-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+
+/* FORM */
+.contact-form{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:8px;padding:2.25rem;
+}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-group{margin-bottom:1.1rem}
+.form-group label{
+  display:block;font-size:0.75rem;font-weight:500;
+  color:var(--text2);margin-bottom:0.4rem;
+  font-family:var(--mono);letter-spacing:0.04em;
+}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;background:var(--bg3);
+  border:1px solid var(--border2);border-radius:4px;
+  padding:0.65rem 0.9rem;font-size:0.875rem;
+  font-family:'Space Grotesk',sans-serif;
+  color:var(--text);outline:none;transition:border-color 0.2s;
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{
+  border-color:var(--accent);
+  box-shadow:0 0 0 3px rgba(0,229,160,0.08);
+}
+.form-group input::placeholder,.form-group textarea::placeholder{color:var(--text3)}
+.form-group select option{background:var(--bg3)}
+.form-group textarea{resize:vertical;min-height:110px}
+.form-submit{
+  width:100%;background:var(--accent);color:#000;
+  border:none;border-radius:4px;padding:0.8rem;
+  font-size:0.9rem;font-weight:700;
+  font-family:'Space Grotesk',sans-serif;
+  cursor:pointer;transition:background 0.2s;margin-top:0.5rem;
+  letter-spacing:0.02em;
+}
+.form-submit:hover{background:#00ffb0}
+.form-note{font-size:0.75rem;color:var(--text3);text-align:center;margin-top:0.875rem;font-family:var(--mono)}
+.form-status{
+  display:flex;align-items:center;gap:0.6rem;
+  font-size:0.82rem;font-weight:500;
+  padding:0.75rem 1rem;border-radius:6px;
+  margin-top:1rem;
+  max-height:0;opacity:0;overflow:hidden;
+  padding-top:0;padding-bottom:0;
+  transition:max-height 0.3s ease,opacity 0.25s ease,padding 0.3s ease,margin 0.3s ease;
+}
+.form-status.show{
+  max-height:80px;opacity:1;
+  padding:0.75rem 1rem;margin-top:1rem;
+}
+.form-status.success{
+  background:rgba(0,229,160,0.1);
+  border:1px solid rgba(0,229,160,0.35);
+  color:var(--accent);
+}
+.form-status.error{
+  background:rgba(255,95,87,0.1);
+  border:1px solid rgba(255,95,87,0.35);
+  color:#FF7A73;
+}
+.form-status-icon{font-size:1rem;flex-shrink:0}
+
+/* FOOTER */
+footer{
+  border-top:1px solid var(--border);padding:1.75rem 2.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  max-width:1200px;margin:0 auto;position:relative;z-index:1;
+}
+.footer-copy{font-size:0.78rem;color:var(--text3);font-family:var(--mono)}
+.footer-copy span{color:var(--accent)}
+.footer-links{display:flex;gap:1.5rem;list-style:none}
+.footer-links a{font-size:0.78rem;color:var(--text3);text-decoration:none;font-family:var(--mono);transition:color 0.2s}
+.footer-links a:hover{color:var(--accent)}
+
+@media(max-width:768px){
+  .hero-inner,.about-grid,.contact-grid{grid-template-columns:1fr;gap:2.5rem}
+  .t-widget,.metrics-row{display:none}
+  .form-row{grid-template-columns:1fr}
+  .value-grid,.skill-grid{grid-template-columns:1fr}
+  nav{padding:0 1.25rem}
+  .nav-links{display:none}
+  .nav-toggle{display:flex}
+  .hero{padding:2.5rem 1.5rem}
+  .section{padding:3rem 1.5rem}
+  .cta-strip{margin:0 1.5rem 3rem;padding:2rem}
+  .projects-grid{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr}
+  footer{
+    flex-direction:column;
+    gap:1rem;
+    text-align:center;
+    padding:1.5rem 1.5rem;
+  }
+  .footer-links{
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:0.75rem 1.25rem;
+  }
+}
+
+@media(min-width:769px){
+  .nav-mobile-panel{display:none !important}
+}
+
+@media(max-width:420px){
+  .hero h1{font-size:2.1rem}
+  .contact-form{padding:1.5rem}
+  .cta-strip{padding:1.5rem 1.25rem}
+  .cta-strip h2{font-size:1.5rem}
+}
+
+/* Contact links */
+.c-val a{
+  color:var(--text);
+  text-decoration:none;
+  position:relative;
+  transition:color .25s ease;
+}
+
+.c-val a::after{
+  content:'';
+  position:absolute;
+  left:0;
+  bottom:-2px;
+  width:100%;
+  height:2px;
+  background:var(--accent);
+  transform:scaleX(0);
+  transform-origin:left;
+  transition:transform .25s ease;
+}
+
+.c-val a:hover{
+  color:var(--accent);
+}
+
+.c-val a:hover::after{
+  transform:scaleX(1);
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">rn<span>.</span>dev</div>
+  <ul class="nav-links">
+    <li><a href="#" onclick="go('home');return false">home</a></li>
+    <li><a href="#" onclick="go('about');return false">about</a></li>
+    <li><a href="#" onclick="go('projects');return false">projects</a></li>
+    <li><a href="donate.html" class="nav-support">support</a></li>
+    <li><a href="#" onclick="go('contact');return false" class="nav-cta">contact</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" onclick="toggleMobileNav()" aria-label="Toggle menu" aria-expanded="false">
+    <span class="nav-toggle-bars">
+      <span></span><span></span><span></span>
+    </span>
+  </button>
+</nav>
+
+<div class="nav-mobile-panel" id="navMobilePanel">
+  <a href="#" onclick="go('home');closeMobileNav();return false">home</a>
+  <a href="#" onclick="go('about');closeMobileNav();return false">about</a>
+  <a href="#" onclick="go('projects');closeMobileNav();return false">projects</a>
+  <a href="donate.html" class="nav-support" onclick="closeMobileNav()">support</a>
+  <a href="#" onclick="go('contact');closeMobileNav();return false" class="nav-cta">contact</a>
+</div>
+
+<!-- HOME -->
+<div id="home" class="page active">
+  <div class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-tag">Data Analyst &amp; Automation Specialist</div>
+        <h1>
+          Stop doing it<br>
+          <span class="line2">manually.</span>
+        </h1>
+        <p class="hero-sub">
+          There's a better way. It's called automation<br>It's faster, more accurate, and requires less manual work.
+        <div class="hero-actions">
+          <a href="#" class="btn-primary" onclick="go('projects');return false">See my work</a>
+          <a href="#" class="btn-ghost" onclick="go('contact');return false">Let's talk →</a>
+        </div>
+      </div>
+
+      <div class="t-widget">
+        <div class="terminal">
+          <div class="terminal-bar">
+            <div class="t-dot r"></div>
+            <div class="t-dot y"></div>
+            <div class="t-dot g"></div>
+            <span class="terminal-title">My_Business.py</span>
+          </div>
+          <div class="terminal-body">
+            <div class="t-line"><span class="t-prompt">$</span><span class="t-cmd">python run_My_Business.py --client=acme</span></div>
+            <div class="t-out t-dim">Initializing workflow engine...</div>
+            <div class="t-out t-green">✓ Orders fetched: 47 new entries</div>
+            <div class="t-out t-green">✓ Invoices generated: 47/47</div>
+            <div class="t-out t-green">✓ Emails dispatched</div>
+            <div class="t-out t-green">✓ Payments confirmed</div>
+            <div class="t-out t-green">✓ Report ready</div>
+            <div class="t-out t-green">✓ All done in 3.2s</div>
+            <div class="t-line" style="margin-top:0.5rem"><span class="t-prompt">$</span><span class="t-cmd"><span class="cursor"></span></span></div>
+          </div>
+        </div>
+        <div class="metrics-row">
+          <div class="metric">
+            <div class="metric-num">47</div>
+            <div class="metric-label">orders processed</div>
+          </div>
+          <div class="metric">
+            <div class="metric-num">3.2s</div>
+            <div class="metric-label">run time</div>
+          </div>
+          <div class="metric">
+            <div class="metric-num">8</div>
+            <div class="metric-label">hours saved</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section">
+    <div class="section-header">
+      <div class="section-tag">// Why_Automate</div>
+      <h2 class="section-title">Hours of work. Done in seconds.</h2>
+      <p class="section-sub">Businesses don't scale by working harder. They scale by working smarter.<br><br>Let's EXPLORE</p>
+    </div>
+
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="wc-num"># 01 </div>
+        <div class="wc-title">SMEs</div>
+        <ul class="wc-list">
+          <li>Repeated customer questions are answered automatically</li>
+          <li>Customers pay instantly</li>
+          <li>Employee salary payment triggers automatically</li>
+          <li>Every sales, expenses and KPIs can be monitored in one dashboard</li>
+          <li>End-of-month reports auto generate</li>
+        </ul>
+      </div>
+      <div class="why-card">
+        <div class="wc-num"># 02</div>
+        <div class="wc-title">Schools</div>
+        <ul class="wc-list">
+          <li>Students check-in using biometrics</li>
+          <li>Parents pay school fees online automatically</li>
+          <li>Fees payments auto-reconcile against each student's fee balance</li>
+          <li>Announcements go out to each parent via bulk messaging</li>
+          <li>Exam scores are graded and ranked automatically</li>
+        </ul>
+      </div>
+      <div class="why-card">
+        <div class="wc-num"># 03</div>
+        <div class="wc-title">Individual Business</div>
+        <ul class="wc-list">
+          <li>Customers get an instant response, even when you're busy</li>
+          <li>Prospects are saved and followed up on regularly</li>
+          <li>Clients pay instantly online</li>
+          <li>Have a digital dashboard where you can monitor all your business activities</li>
+          <li>Get auto-generated reports of your business every month</li>
+        </ul>
+      </div>
+      <div class="why-card">
+        <div class="wc-num">04 — Be Your Own Boss</div>
+        <div class="wc-title">Everyone Else</div>
+        <ul class="wc-list">
+          <li>Get jobs matching your interests sent to you automatically</li>
+          <li>Content Creators be the first to know what's trending and recieve content ideas</li>
+          <li>Traders let's automate your trades based on pre-set rules, removing emotional trading</li>
+          <li>Keep your finances in check by automatically tracking your money</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-strip">
+    <h2>This is the future. Be part of it today.</h2>
+    <p>One conversation. One system built.</p>
+    <a href="#" class="btn-primary" onclick="go('contact');return false">Start the conversation</a>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div id="about" class="page">
+  <div class="section">
+    <div class="about-grid">
+      <div>
+        <div class="about-card">
+          <div class="about-card-top">
+            <div class="avatar">RN</div>
+            <div class="about-name">Ron Mwangi</div>
+            <div class="about-role">Data Analyst · Automation Specialist</div>
+          </div>
+          <div class="about-card-body">
+            <div class="about-stat">
+              <span class="about-stat-label">location</span>
+              <span class="about-stat-val">Nairobi, KE</span>
+            </div>
+            <div class="about-stat">
+              <span class="about-stat-label">status</span>
+              <span class="about-stat-val" style="color:var(--accent)">available</span>
+            </div>
+            <div class="about-stat">
+              <span class="about-stat-label">rating</span>
+              <span class="about-stat-val">⭐ 5/5</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:1.25rem">
+          <div style="font-family:var(--mono);font-size:0.7rem;color:var(--text3);margin-bottom:0.75rem;letter-spacing:0.08em">SERVICES I OFFER </div>
+          <div class="skill-grid">
+            <div class="skill-item">Web Design</div>
+            <div class="skill-item">System Automation</div>
+            <div class="skill-item">Consultation(free)</div>
+            <div class="skill-item">Maintainance</div>
+            <div class="skill-item">Data Analysis</div>
+            <div class="skill-item">Data Trackers</div>
+            <div class="skill-item">Database Mgt</div>
+            <div class="skill-item">Database Design</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-text">
+        <div class="section-tag">// about_me</div>
+        <h2>Hi. I'm Ron.</h2>
+        <p class="tagline"> Data Analyst &amp; Automation Specialist</p>
+
+        <p>
+          I help businesses and individuals save on time by automating repetitive tasks.
+        </p>
+        <p>
+          I work with various tools to connect workflows and build automation systems. Whether it's a business owner who needs payments and invoices automated, or an SME looking to automate every part of their business operation. I build systems that do exactly that. This means your operations run faster, smoother and with less manual effort. Giving you more time to focus on what actually grows your business.
+        </p>
+        <p>
+          I believe you shouldn't need a big budget or a computer science degree to benefit from this. Automation is for everyone. And I'm here to make that possible.
+        </p>
+
+        <div class="value-grid">
+          <div class="value-box">
+            <div class="vb-title">Reliable</div>
+            <div class="vb-desc">I build dependable systems people can rely on</div>
+          </div>
+          <div class="value-box">
+            <div class="vb-title">Professional</div>
+            <div class="vb-desc">Every system I build is tailored to your business and delivered with care.</div>
+          </div>
+          <div class="value-box">
+            <div class="vb-title">Transparent</div>
+            <div class="vb-desc">Just clear solutions that make sense.</div>
+          </div>
+          <div class="value-box">
+            <div class="vb-title">Honest</div>
+            <div class="vb-desc">Solutions that genuinely help your business.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<div id="projects" class="page">
+  <div class="section">
+    <div class="section-header">
+      <div class="section-tag">// projects/</div>
+      <h2 class="section-title">Things I've built.</h2>
+      <p class="section-sub">Real systems. Real solutions.</p>
+    </div>
+
+    <div class="projects-grid">
+
+      <div class="proj-card">
+        <div class="proj-header">
+          <div class="proj-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div class="proj-status">INDIVIDUAL BUSINESS</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-tags">
+            <span class="proj-tag">CRM</span>
+            <span class="proj-tag">M-pesa</span>
+            <span class="proj-tag">Dashboard</span>
+          </div>
+          <h3>Business Automation</h3>
+          <p>A business owner was spending too much time replying to customers, tracking leads, collecting payments, and preparing reports. I built an automated system that keeps the business running smoothly while providing complete visibility into daily operations.</p>
+          <div class="proj-outcomes">
+            <div class="outcome"><span class="outcome-check">✓</span>Live dashboard lets you monitor sales, payments, clients, and business performance in one place</div>
+            <div class="outcome"><span class="outcome-check">✓</span>Client messages receive instant responses, even when you're busy</div>
+            <div class="outcome"><span class="outcome-check">✓</span>Clients pay instantly through M-Pesa STK Push</div>
+            <div class="outcome"><span class="outcome-check">✓</span>Monthly business reports are generated and delivered automatically</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-header">
+          <div class="proj-icon">
+            <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+          </div>
+          <div class="proj-status">SMEs</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-tags">
+            <span class="proj-tag">Payroll</span>
+            <span class="proj-tag">Automation</span>
+            <span class="proj-tag">Finance</span>
+          </div>
+          <h3>SME Payroll Automation</h3>
+          <p>An SME was managing payrolls, approvals and reporting manually. I built an automation system that connects key business processes, reducing repetitive work and improving operational efficiency.</p>
+          <div class="proj-outcomes">
+            <div class="outcome"><span class="outcome-check">✓</span>Employee salary payments are triggered automatically on payday</div>
+            <div class="outcome"><span class="outcome-check">✓</span>Staff leave requests and approvals are handled digitally</div>
+            <div class="outcome"><span class="outcome-check">✓</span>Invoices and payment reminders are sent automatically</div>
+            <div class="outcome"><span class="outcome-check">✓</span>Live dashboard tracks payroll, sales, expenses, and overall business performance</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-header">
+          <div class="proj-icon">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <div class="proj-status">JOB SEEKERS</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-tags">
+            <span class="proj-tag">Job Search</span>
+            <span class="proj-tag">Alerts</span>
+            <span class="proj-tag">Automations</span>
+          </div>
+          <h3>Job Search Automation</h3>
+          <p>Searching for jobs every day can be repetitive and time-consuming. I built an automation that monitors job platforms continuously and delivers opportunities that match your skills and interests as soon as they're posted.</p>
+          <div class="proj-outcomes">
+            <div class="outcome"><span class="outcome-check">✓</span>Job opportunities matching your interests are sent to you automatically</div>
+            <div class="outcome"><span class="outcome-check">✓</span>New vacancies are delivered instantly</div>
+            <div class="outcome"><span class="outcome-check">✓</span>Receive notifications through email, WhatsApp, or Telegram</div>
+            <div class="outcome"><span class="outcome-check">✓</span>Monitor jobs by role, location or industry</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-header">
+          <div class="proj-icon">
+            <svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
+          </div>
+          <div class="proj-status">CONTENT CREATORS</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-tags">
+            <span class="proj-tag">AI</span>
+            <span class="proj-tag">Trending</span>
+            <span class="proj-tag">Automation</span>
+          </div>
+          <h3>Content Automation</h3>
+          <p>Keeping up with trends takes time, and great ideas can come and go quickly. I built an automation that monitors what's gaining traction and delivers fresh content ideas before you start creating.</p>
+          <div class="proj-outcomes">
+            <div class="outcome"><span class="outcome-check">✓</span>Be the first to know what's trending</div>
+            <div class="outcome"><span class="outcome-check">✓</span>Receive content ideas based on current trends</div>
+            <div class="outcome"><span class="outcome-check">✓</span>Get daily content inspos</div>
+            <div class="outcome"><span class="outcome-check">✓</span>Spend less time researching and more time creating content</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-header">
+          <div class="proj-icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div class="proj-status">TRADERS</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-tags">
+            <span class="proj-tag">Trading</span>
+            <span class="proj-tag">Rule-Based</span>
+            <span class="proj-tag">Automation</span>
+          </div>
+          <h3>Trading Automation</h3>
+          <p>Emotions can lead to costly trading decisions. I build automation systems that execute your trading strategy based on predefined rules, helping you stay disciplined and consistent.</p>
+          <div class="proj-outcomes">
+            <div class="outcome"><span class="outcome-check">✓</span>Receive instant alerts when entry or exit conditions are met</div>
+            <div class="outcome"><span class="outcome-check">✓</span>Trades are executed automatically based on your pre-set rules</div>
+            <div class="outcome"><span class="outcome-check">✓</span>Eliminate emotional decision-making</div>
+            <div class="outcome"><span class="outcome-check">✓</span>Remain Consistent</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT -->
+<div id="contact" class="page">
+  <div class="section">
+    <div class="contact-grid">
+      <div class="contact-left">
+        <div class="section-tag">// contact.me</div>
+        <h2>Let's build something.</h2>
+        <p>Tell me what you're dealing with. Whether you have a clear project in mind or you're simply tired of doing the same tasks over and over again, reach out.<br><br> I'll come back with what's possible.</p>
+
+        <div class="contact-item">
+          <div class="c-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div>
+            <div class="c-label">Email</div>
+            <div class="c-val">ronmwangi01@gmail.com</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="c-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.79 19.79 0 0 1 2.08 4.18 2 2 0 0 1 4.06 2h3a2 2 0 0 1 2 1.72c.12.89.33 1.76.63 2.59a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.49-1.15a2 2 0 0 1 2.11-.45c.83.3 1.7.51 2.59.63A2 2 0 0 1 22 16.92z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="c-label">Phone Number</div>
+            <div class="c-val">+254-791-21-9995</div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="c-icon">
+            <svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </div>
+          <div>
+            <div class="c-label">LinkedIn</div>
+            <div class="c-val">
+                <a href="https://www.linkedin.com/in/ron-ngugi-8847b127a/" target="_blank">
+                    linkedin.com/in/ron-ngugi
+                </a>
+            </div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="c-icon">
+            <svg viewBox="0 0 24 24"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+          </div>
+          <div>
+            <div class="c-label">Github</div>
+            <div class="c-val">
+                <a href="https://github.com/ronmwangi" target="_blank">
+                    github.com/ronmwangi
+                </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="avail-badge">
+          <span class="avail-dot"></span>
+          available for new projects
+        </div>
+      </div>
+      
+      <div class="contact-form">
+        <div style="font-family:var(--mono);font-size:0.75rem;color:var(--text3);margin-bottom:1.75rem;letter-spacing:0.06em">// send_message()</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>first_name</label>
+            <input type="text" id="first_name" placeholder="Your first name">
+          </div>
+          <div class="form-group">
+            <label>last_name</label>
+            <input type="text" id="last_name" placeholder="Your last name">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>email</label>
+          <input type="email" id="email" placeholder="you@example.com">
+        </div>
+        <div class="form-group">
+          <label>project_type</label>
+          <select id="project_type">
+            <option value="" disabled selected></option>
+            <option>Automation</option>
+            <option>Dashboard Design</option>
+            <option>Data Analysis</option>
+            <option>Web Design</option>
+            <option>Other...</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>message</label>
+          <textarea id="message" placeholder="What are you currently dealing with? What would you love to automate — or understand better about your data?"></textarea>
+        </div>
+        <button class="form-submit" id="submitBtn" onclick="handleSubmit(this)">send message →</button>
+        <div class="form-status" id="formStatus">
+          <span class="form-status-icon" id="formStatusIcon"></span>
+          <span id="formStatusText"></span>
+        </div>
+        <p class="form-note">// no spam · no subscriptions · just a real conversation</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-copy">© 2025 <span>Ron Mwangi</span> · Nairobi, KE</div>
+  <ul class="footer-links">
+    <li><a href="#" onclick="go('home');return false">home</a></li>
+    <li><a href="#" onclick="go('about');return false">about</a></li>
+    <li><a href="#" onclick="go('projects');return false">projects</a></li>
+    <li><a href="donate.html">support</a></li>
+    <li><a href="#" onclick="go('contact');return false">contact</a></li>
+  </ul>
+</footer>
+
+<script>
+function go(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function toggleMobileNav(){
+  const panel = document.getElementById('navMobilePanel');
+  const toggle = document.getElementById('navToggle');
+  const isOpen = panel.classList.toggle('open');
+  toggle.classList.toggle('open', isOpen);
+  toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+}
+
+function closeMobileNav(){
+  const panel = document.getElementById('navMobilePanel');
+  const toggle = document.getElementById('navToggle');
+  panel.classList.remove('open');
+  toggle.classList.remove('open');
+  toggle.setAttribute('aria-expanded', 'false');
+}
+
+// Close mobile menu automatically if the viewport is resized back to desktop
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 768) closeMobileNav();
+});
+
+function showFormStatus(type, text) {
+  const status = document.getElementById('formStatus');
+  const icon = document.getElementById('formStatusIcon');
+  const msg = document.getElementById('formStatusText');
+
+  status.classList.remove('success', 'error', 'show');
+  void status.offsetWidth; // restart animation if triggered again quickly
+
+  icon.textContent = type === 'success' ? '✓' : '✕';
+  msg.textContent = text;
+  status.classList.add(type, 'show');
+
+  if (type === 'success') {
+    setTimeout(() => status.classList.remove('show'), 50000);
+  }
+}
+
+async function handleSubmit(btn) {
+  const first_name = document.getElementById('first_name').value.trim();
+  const last_name = document.getElementById('last_name').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const project_type = document.getElementById('project_type').value;
+  const message = document.getElementById('message').value.trim();
+
+  if (!first_name || !email || !message) {
+    showFormStatus('error', 'Please fill in your name, email, and message.');
+    return;
+  }
+
+  const originalText = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'sending...';
+  document.getElementById('formStatus').classList.remove('show');
+
+  try {
+    const res = await fetch('https://c5cd-102-209-58-3.ngrok-free.app/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ first_name, last_name, email, project_type, message })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      btn.textContent = 'message sent ✓';
+      btn.style.background = '#00B87A';
+      showFormStatus('success', `Thanks ${first_name} — your message is in. I'll get back to you soon.`);
+      document.getElementById('first_name').value = '';
+      document.getElementById('last_name').value = '';
+      document.getElementById('email').value = '';
+      document.getElementById('project_type').value = '';
+      document.getElementById('message').value = '';
+    } else {
+      btn.textContent = 'error — try again';
+      btn.style.background = '#FF5F57';
+      showFormStatus('error', 'Something went wrong sending that. Please try again.');
+    }
+  } catch (err) {
+    btn.textContent = 'error — try again';
+    btn.style.background = '#FF5F57';
+    showFormStatus('error', "Couldn't reach the server. Please check your connection and try again.");
+  }
+
+  setTimeout(() => {
+    btn.textContent = originalText;
+    btn.style.background = '';
+    btn.disabled = false;
+  }, 3000);
+}
+</script>
+</body>
+</html>
