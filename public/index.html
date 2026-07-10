@@ -340,6 +340,7 @@ hr.divider{border:none;border-top:1px solid var(--border);max-width:1200px;margi
   background:var(--bg2);border:1px solid var(--border);
   border-radius:8px;overflow:hidden;
   transition:border-color 0.2s,transform 0.2s;
+  display:flex;flex-direction:column;
 }
 .proj-card:hover{border-color:rgba(0,229,160,0.4);transform:translateY(-2px)}
 .proj-header{
@@ -358,7 +359,7 @@ hr.divider{border:none;border-top:1px solid var(--border);max-width:1200px;margi
   color:var(--accent);background:var(--accent-dim);
   padding:0.25rem 0.6rem;border-radius:2px;letter-spacing:0.06em;
 }
-.proj-body{padding:0 1.5rem 1.5rem}
+.proj-body{padding:0 1.5rem 1.5rem;display:flex;flex-direction:column;flex:1}
 .proj-tags{display:flex;gap:0.4rem;flex-wrap:wrap;margin-bottom:0.85rem}
 .proj-tag{
   font-family:var(--mono);font-size:0.68rem;
@@ -371,6 +372,40 @@ hr.divider{border:none;border-top:1px solid var(--border);max-width:1200px;margi
 .proj-outcomes{border-top:1px solid var(--border);padding-top:1rem;display:flex;flex-direction:column;gap:0.4rem}
 .outcome{display:flex;align-items:flex-start;gap:0.5rem;font-size:0.8rem;color:var(--text2)}
 .outcome-check{color:var(--accent);flex-shrink:0;font-family:var(--mono);font-size:0.72rem;margin-top:0.15rem}
+
+.proj-view-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:0.4rem;
+  margin-top:1.25rem;
+  width:100%;
+  background:transparent;color:var(--accent);
+  border:1px solid rgba(0,229,160,0.3);border-radius:4px;
+  padding:0.6rem 1rem;
+  font-family:var(--mono);font-size:0.78rem;font-weight:500;
+  letter-spacing:0.03em;
+  text-decoration:none;
+  cursor:pointer;
+  transition:background 0.2s,border-color 0.2s,transform 0.15s;
+}
+.proj-view-btn:hover{background:var(--accent-dim);border-color:var(--accent);transform:translateY(-1px)}
+.proj-view-btn svg{width:13px;height:13px;stroke:var(--accent);fill:none;stroke-width:2}
+
+/* NOT PUBLIC TOAST */
+.proj-toast{
+  position:fixed;left:50%;bottom:2rem;
+  transform:translateX(-50%) translateY(12px);
+  background:var(--bg2);border:1px solid var(--border2);
+  border-radius:6px;padding:0.75rem 1.25rem;
+  font-family:var(--mono);font-size:0.8rem;color:var(--text);
+  display:flex;align-items:center;gap:0.6rem;
+  box-shadow:0 8px 24px rgba(0,0,0,0.4);
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity 0.25s ease,transform 0.25s ease,visibility 0.25s;
+  z-index:200;
+}
+.proj-toast.show{
+  opacity:1;visibility:visible;transform:translateX(-50%) translateY(0);
+}
+.proj-toast-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);flex-shrink:0}
 
 /* CONTACT */
 .contact-grid{display:grid;grid-template-columns:1fr 1.5fr;gap:5rem;align-items:start}
@@ -573,8 +608,8 @@ footer{
         <p class="hero-sub">
           Automate it.<br>It's faster, more accurate and requires less manual work.
         <div class="hero-actions">
-          <a href="#" class="btn-primary" onclick="go('projects');return false">See my work</a>
-          <a href="#" class="btn-ghost" onclick="go('contact');return false">Let's talk →</a>
+          <a href="#" class="btn-primary" onclick="go('about');return false">My Profile</a>
+          <a href="#" class="btn-ghost" onclick="go('projects');return false">My Projects →</a>
         </div>
       </div>
 
@@ -674,7 +709,7 @@ footer{
 
   <div class="cta-strip">
     <h2>This is the future. Be part of it today.</h2>
-    <p>One conversation. One system built.</p>
+    <p>One conversation. One step.</p>
     <a href="#" class="btn-primary" onclick="go('contact');return false">Start the conversation</a>
   </div>
 </div>
@@ -763,9 +798,9 @@ footer{
 <div id="projects" class="page">
   <div class="section">
     <div class="section-header">
-      <div class="section-tag">// projects/</div>
-      <h2 class="section-title">Things I've built.</h2>
-      <p class="section-sub">Real systems. Real solutions.</p>
+      <div class="section-tag">// my work/</div>
+      <h2 class="section-title">My Projects</h2>
+      <p class="section-sub">Things I've built.</p>
     </div>
 
     <div class="projects-grid">
@@ -773,9 +808,38 @@ footer{
       <div class="proj-card">
         <div class="proj-header">
           <div class="proj-icon">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <div class="proj-status">1</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-tags">
+            <span class="proj-tag">HTML</span>
+            <span class="proj-tag">CSS</span>
+            <span class="proj-tag">JavaScript</span>
+            <span class="proj-tag">Google Sites</span>
+          </div>
+          <h3>AIESEC Website</h3>
+          <p>Members kept digging through a shared doc to understand portfolios, sending repetitive questions to leadership. I built a self-serve site with search, filters, FAQs, and forms that route inquiries and speaker nominations directly to email.</p>
+          <div class="proj-outcomes">
+            <div class="outcome"><span class="outcome-check">✓</span>Members search and access all 9 portfolios in one place</div>
+            <div class="outcome"><span class="outcome-check">✓</span>Self-serve FAQ accordion cuts down repetitive questions</div>
+            <div class="outcome"><span class="outcome-check">✓</span>Contact and speaker-nomination forms fire straight to email — zero manual work</div>
+            <div class="outcome"><span class="outcome-check">✓</span>A simple website that helps do complex tasks</div>
+          </div>
+          <a href="https://sites.google.com/aiesec.ke/giveortake40/home" class="proj-view-btn" target="_blank">
+            view project
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-header">
+          <div class="proj-icon">
             <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           </div>
-          <div class="proj-status">INDIVIDUAL BUSINESS</div>
+          <div class="proj-status">2</div>
         </div>
         <div class="proj-body">
           <div class="proj-tags">
@@ -783,14 +847,18 @@ footer{
             <span class="proj-tag">M-pesa</span>
             <span class="proj-tag">Dashboard</span>
           </div>
-          <h3>Business Automation</h3>
-          <p>A business owner was spending too much time replying to customers, tracking leads, collecting payments, and preparing reports. I built an automated system that keeps the business running smoothly while providing complete visibility into daily operations.</p>
+          <h3>General Automation</h3>
+          <p>A business owner was spending too much time replying to customers, tracking leads, collecting payments, and preparing reports. I built an automated system that keeps their business running smoothly.</p>
           <div class="proj-outcomes">
             <div class="outcome"><span class="outcome-check">✓</span>Live dashboard lets you monitor sales, payments, clients, and business performance in one place</div>
             <div class="outcome"><span class="outcome-check">✓</span>Client messages receive instant responses, even when you're busy</div>
             <div class="outcome"><span class="outcome-check">✓</span>Clients pay instantly through M-Pesa STK Push</div>
             <div class="outcome"><span class="outcome-check">✓</span>Monthly business reports are generated and delivered automatically</div>
           </div>
+          <a href="#" class="proj-view-btn" onclick="showNotPublic(event)">
+            view project
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
         </div>
       </div>
 
@@ -799,7 +867,7 @@ footer{
           <div class="proj-icon">
             <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
           </div>
-          <div class="proj-status">SMEs</div>
+          <div class="proj-status">3</div>
         </div>
         <div class="proj-body">
           <div class="proj-tags">
@@ -808,13 +876,17 @@ footer{
             <span class="proj-tag">Finance</span>
           </div>
           <h3>SME Payroll Automation</h3>
-          <p>An SME was managing payrolls, approvals and reporting manually. I built an automation system that connects key business processes, reducing repetitive work and improving operational efficiency.</p>
+          <p>I built an automation system that reduces repetitive work and improves operational efficiency.</p>
           <div class="proj-outcomes">
             <div class="outcome"><span class="outcome-check">✓</span>Employee salary payments are triggered automatically on payday</div>
             <div class="outcome"><span class="outcome-check">✓</span>Staff leave requests and approvals are handled digitally</div>
-            <div class="outcome"><span class="outcome-check">✓</span>Invoices and payment reminders are sent automatically</div>
-            <div class="outcome"><span class="outcome-check">✓</span>Live dashboard tracks payroll, sales, expenses, and overall business performance</div>
+            <div class="outcome"><span class="outcome-check">✓</span>Invoices and payment reminders are scheduled and sent automatically</div>
+            <div class="outcome"><span class="outcome-check">✓</span>Live dashboard for the business to track sales, expenses, and overall business performance</div>
           </div>
+          <a href="#" class="proj-view-btn" onclick="showNotPublic(event)">
+            view project
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
         </div>
       </div>
 
@@ -823,7 +895,7 @@ footer{
           <div class="proj-icon">
             <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
           </div>
-          <div class="proj-status">JOB SEEKERS</div>
+          <div class="proj-status">4</div>
         </div>
         <div class="proj-body">
           <div class="proj-tags">
@@ -839,6 +911,10 @@ footer{
             <div class="outcome"><span class="outcome-check">✓</span>Receive notifications through email, WhatsApp, or Telegram</div>
             <div class="outcome"><span class="outcome-check">✓</span>Monitor jobs by role, location or industry</div>
           </div>
+          <a href="#" class="proj-view-btn" onclick="showNotPublic(event)">
+            view project
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
         </div>
       </div>
 
@@ -847,7 +923,7 @@ footer{
           <div class="proj-icon">
             <svg viewBox="0 0 24 24"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
           </div>
-          <div class="proj-status">CONTENT CREATORS</div>
+          <div class="proj-status">5</div>
         </div>
         <div class="proj-body">
           <div class="proj-tags">
@@ -863,6 +939,10 @@ footer{
             <div class="outcome"><span class="outcome-check">✓</span>Get daily content inspos</div>
             <div class="outcome"><span class="outcome-check">✓</span>Spend less time researching and more time creating content</div>
           </div>
+          <a href="#" class="proj-view-btn" onclick="showNotPublic(event)">
+            view project
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
         </div>
       </div>
 
@@ -871,7 +951,7 @@ footer{
           <div class="proj-icon">
             <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           </div>
-          <div class="proj-status">TRADERS</div>
+          <div class="proj-status">6</div>
         </div>
         <div class="proj-body">
           <div class="proj-tags">
@@ -887,6 +967,10 @@ footer{
             <div class="outcome"><span class="outcome-check">✓</span>Eliminate emotional decision-making</div>
             <div class="outcome"><span class="outcome-check">✓</span>Remain Consistent</div>
           </div>
+          <a href="#" class="proj-view-btn" onclick="showNotPublic(event)">
+            view project
+            <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          </a>
         </div>
       </div>
 
@@ -1009,7 +1093,21 @@ footer{
   </ul>
 </footer>
 
+<div class="proj-toast" id="projToast">
+  <span class="proj-toast-dot"></span>
+  <span>project not yet public</span>
+</div>
+
 <script>
+let toastTimer;
+function showNotPublic(e){
+  e.preventDefault();
+  const toast = document.getElementById('projToast');
+  clearTimeout(toastTimer);
+  toast.classList.add('show');
+  toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+}
+
 function go(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
